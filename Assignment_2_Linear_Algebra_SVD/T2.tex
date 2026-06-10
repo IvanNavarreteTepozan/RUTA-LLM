@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tcolorbox} % For the modern "Problem" boxes
+\usepackage{fancyhdr}  % For headers and footers
+
+% --- Visual Styling ---
+\definecolor{courseblue}{RGB}{0, 51, 102}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=courseblue,
+    urlcolor=blue,
+}
+
+% Code snippet styling
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\lstset{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    language=Python
+}
+
+% Custom Problem Box
+\newtcolorbox{problem}[1]{
+  colback=blue!5!white,
+  colframe=courseblue,
+  fonttitle=\bfseries,
+  title=Problem #1
+}
+
+% --- Assignment Metadata ---
+\newcommand{\courseName}{Temas selectos de Matemáticas II}
+\newcommand{\courseURL}{https://eduenez.github.io/MathAIspring2026UTSA}
+\newcommand{\assignmentTitle}{2nd Assignment}
+\newcommand{\studentName}{Navarrete Tepozán Iván} 
+
+% --- Header/Footer Setup ---
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\courseName}
+\rhead{\studentName}
+\cfoot{\thepage}
+
+
+% --- Document Starts Here ---
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{\assignmentTitle}} \\
+    \vspace{5pt}
+    {\large \href{\courseURL}{Course Site @GitHub}} \\
+    \vspace{10pt}
+    \textbf{Student:} \studentName \hfill \textbf{Due Date:} {Wed 18 February}\\
+    \rule{\linewidth}{0.4pt}
+\end{center}
+
+\section*{Warm-up Task}
+\begin{problem}{}
+(Re)read the Written Work Guidelines and write a short paragraph reflecting on your progress as a technical writer.
+\end{problem}
+
+\begin{proof}[Reflection]
+If I can be honest, I feel that the first assignment was not enough to significantly improve my mathematical writing skills. However, I believe I made a strong attempt. Another point I need to address is finding the exact balance between writing in a simple, accessible way and avoiding overly long or unnecessary explanations.
+\end{proof}
+
+\section*{Main Task I}
+Log on to Colab and open the Jupyter (iPython) file \href{https://colab.research.google.com/drive/1A5U2jgdtyVQZKHIIpqHub6X-aUqD-7mB?usp=sharing}{numpy-tutorial-svd.ipynb}. \\
+
+Make sure to save it to your own Google Drive! (The link above is to a read-only version of my personal copy of the file). Afterwards, you should continue work on your own personal copy. \\
+
+Take a ``random'' $3 \times 2$ matrix $A$ of your own choosing meeting the following requirements:
+\begin{itemize}
+    \item it has small integer entries, say $0, \pm 1, \pm 2, \pm 3$ (repetitions are allowed, and you are also allowed to use larger integers but the calculations may get messier);
+    \item it has rank 2;
+    \item no two rows, nor columns should be perpendicular;
+    \item at most two entries are zero, but not in the same row nor column.
+\end{itemize}
+
+\begin{problem}{Subtask 1 [50 pt.]}
+Run through the entire calculation of finding the Singular Value Decomposition of $A$. \\
+
+Your calculations should all be \textit{exact}—not decimal approximations. Square roots are almost certain to be involved in computing eigenvalues and entries of eigenvectors. Do not evaluate those numerically, but \textit{do} simplify the exact expressions as much as possible (e.g., although square roots of relatively large integers may appear, at \textit{no} point should you have a square root nested inside another one, etc.) \\
+
+The steps are as follows:
+\begin{itemize}
+    \item Consider first the $2 \times 2$ matrix $B = A^T A$. Carry out in full all steps for finding the (positive!) eigenvalues $s_1, s_2$ (chosen in the \textit{decreasing} order of magnitude $s_1 > s_2$) and an orthonormal basis $v_1, v_2$ (ONB) of eigenvectors of $B$—these are the ``right eigenvectors'' of $A$.
+    \item The eigenvalues $s_1 > s_2$ of $B$ are the ``squared singular values'' of $A$. The \textit{singular values} of $A$ are thus defined as $\sigma_1 = \sqrt{s_1}$ and $\sigma_2 = \sqrt{s_2}$.
+    \item The ONB $v_1, v_2$ gives (the columns of) an orthogonal $2 \times 2$ matrix $V$. Verify that $V^T V = I$.
+    \item Consider now the $3 \times 3$ matrix $C = AA^T$. Carry out all steps of finding the eigenvalues and an orthonormal basis $u_1, u_2, u_3$ (ONB) of eigenvectors for $C$—these are the ``left eigenvectors'' of $A$. Verify that the corresponding eigenvalues should be $s_1, s_2$ (which are the \textit{same} squared singular values of $A$ as above) and the third eigenvalue is $0$. The ONB $u_1, u_2, u_3$ gives (the columns of) an orthogonal matrix $U$. Verify that again $U^T U = I$.
+    \item Let $\Sigma$ be the $3 \times 2$ matrix (same size as $A$) having the singular values $\sigma_1, \sigma_2$ on the diagonal. Verify that $\sigma_1(u_1 v_1^T) + \sigma_2(u_2 v_2^T) = A = U \Sigma V^T$.
+\end{itemize}
+\end{problem}
+
+\begin{proof}[Solution]
+% Escribe tu solución aquí.
+\end{proof}
+
+\begin{problem}{Subtask 2 [25 pt.]}
+\begin{enumerate}
+    \item Find numerical approximations (using a calculator or Python/NumPy) to the matrices $U$, $S$, $V$ you found above, and write them down.
+    \item Use NumPy to find (a decimal approximation to) the SVD of the same matrix $A$ chosen above. (\textit{Hint: Use NumPy's function \texttt{linalg.svd} as done in \texttt{numpy-tutorial-svd.ipynb}. Remember to start with \lstinline{import numpy as np} so you can subsequently access the function as \texttt{np.linalg.svd}.})
+    \item Do the matrices $U$, $S$, $V$ you found in (1) above agree exactly (to within a small rounding error) with the ones found using \texttt{linalg.svd}? How many different choices of the matrix triple $(U, \Sigma, V)$ are possible, all of which are equally correct as an SVD for $A$?
+    \item \textbf{[Bonus +5\%]} Count the possible choices of $(U, \Sigma, V)$ for a given matrix $A$ still of rank 2, but having size $4 \times 2$.
+\end{enumerate}
+\end{problem}
+
+\begin{proof}[Solution]
+% Escribe tu solución aquí.
+\end{proof}
+
+\begin{problem}{Subtask 3 [25 pt.]}
+\begin{enumerate}
+    \item As in Cell \#25 of \texttt{numpy-tutorial-svd.ipynb}, let $k$ be any positive integer not exceeding 768, which is the rank, in all likelihood exact, of the ``raccoon matrix'' \texttt{img\_gray}. In \texttt{numpy-tutorial-svd.ipynb}, only the largest $k = 10$ singular values (out of 768) are kept, providing a ``lossy''/blurry reconstruction of the original image which, remarkably, is still quite recognizable as a raccoon. Carry out experiments varying the value of $k$ and report your findings. What is the smallest value of $k$ for which there is no visually discernible difference between the original picture and the reconstructed one?
+\end{enumerate}
+\end{problem}
+
+\begin{proof}[Solution]
+% Escribe tu solución aquí.
+\end{proof}
+
+\vspace{15pt}
+Although computing the SVD of a very large matrix is quite an expensive operation for which no truly efficient algorithm is known, the notions of ``encoder/decoder'' in modern machine learning (deep neural networks) are inspired by (but not based on) optimal/ideal mathematical procedures such as SVD.
+
+\end{document}
